@@ -3,15 +3,99 @@
 ## Overview
 
 This project is an end-to-end **automated explainer video generation
-system**.\
-Given a topic, the system: 1. Generates high-quality explanatory content
-using a local Large Language Model (LLM). 2. Structures the content into
-scenes with realistic durations. 3. Renders a professional 2D
-explainer-style video using Manim. 4. Generates offline voiceovers. 5.
-Merges visuals and narration into a final video.
+system**.
 
-The pipeline is fully modular, reproducible, and designed for
-offline-first execution where possible.
+Given a topic, the system: 
+1. Generates high-quality explanatory content using a local Large Language Model (LLM).
+2. Structures the content into scenes with realistic durations.
+3. Renders a professional explainer-style video using Manim.
+4. Generates offline voiceovers.
+5. Merges visuals and narration into a final video.
+
+The pipeline is fully modular and  reproducible
+
+------------------------------------------------------------------------
+
+
+## Execution Pipeline (Strict Order)
+
+### Step 1: Manual Analysis and Styling of Video to create 
+
+#### Run extract_style.py
+
+```
+python extract_style.py
+```
+
+This extracts the stying and animation type from the document 
+
+#### Run Generate script
+
+Make sure the Ollama service is on :
+
+Commands to use for Ollama
+```
+ollama --version
+ollama pull gemma3:1b
+ollama serve
+```
+
+Then Run:
+``` bash
+python generate_script.py
+```
+
+-   Prompts user for a topic.
+-   Uses local LLM to generate scene-wise narration.
+-   Outputs `script.json`.
+
+
+### Step 2: Build Blue-Print ,Analyze Durations & Generate Voiceover
+
+Run Build-blue Print
+
+```
+python build_blueprint.py
+```
+
+then Run
+
+``` bash
+python add_voiceover.py
+```
+
+When prompted: 
+- **Update scene durations?** → `y`
+- **Use updated script for rendering?** → `y`
+
+Outputs: - `script_updated.json` - `scene_audio/` - `voiceover.m4a`
+
+
+### Step 3: Render Video
+
+``` bash
+manim -pqh render_video.py Explainer
+```
+
+-   Uses `script_updated.json`.
+-   Produces a silent explainer video with correct pacing.
+
+Output: - `Explainer.mp4`
+
+
+### Step 4: Merge Voiceover with Video
+
+Again Run
+
+``` bash
+python add_voiceover.py
+```
+
+When prompted: 
+- **Update scene durations?** → `n`
+- **Regenerate voiceover?** → `n`
+
+Final Output: - `final_with_voiceover.mp4`
 
 ------------------------------------------------------------------------
 
@@ -19,12 +103,12 @@ offline-first execution where possible.
 
 ### 1. Ollama (Local LLM)
 
-**Why:**\
+**Why:**
 - Provides high-quality text generation without API limits. - Works
 fully offline. - Ensures content quality beyond lightweight transformer
 models.
 
-**Used for:**\
+**Used for:**
 - Generating narration text for each scene based on the user-provided
 topic.
 
@@ -32,12 +116,12 @@ topic.
 
 ### 2. Manim Community Edition
 
-**Why:**\
+**Why:**
 - Industry-grade mathematical and explainer animation engine. - Precise
 control over text layout, timing, and animations. - Deterministic
 rendering suitable for automation.
 
-**Used for:**\
+**Used for:**
 - Rendering 2D explainer visuals. - Displaying narration text, headings,
 and bullet points with animations.
 
@@ -45,29 +129,29 @@ and bullet points with animations.
 
 ### 3. pyttsx3 (Offline Text-to-Speech)
 
-**Why:**\
+**Why:**
 - Fully offline. - No dependency on external APIs or internet
 connectivity. - Stable for automation pipelines.
 
-**Used for:**\
+**Used for:**
 - Generating voiceover audio per scene.
 
 ------------------------------------------------------------------------
 
 ### 4. FFmpeg
 
-**Why:**\
+**Why:**
 - Industry-standard media processing tool. - Reliable audio-video
 merging. - High performance and codec flexibility.
 
-**Used for:**\
+**Used for:**
 - Concatenating per-scene audio. - Merging final narration with rendered
 video.
 
 ------------------------------------------------------------------------
 
 ## Project Directory Structure
-
+```
     Video_Synthesis_System/
     │
     ├── generate_script.py          # Generates narration content using LLM
@@ -95,6 +179,8 @@ video.
     ├── requirements.txt            # Python dependencies
     └── README.md                   # Project documentation
 
+```
+
 ### Auto-generated Files and Directories
 
 -   `script.json`
@@ -104,76 +190,23 @@ video.
 -   `media/`
 -   `final_with_voiceover.mp4`
 
-These should **not** be manually edited unless debugging.
 
 ------------------------------------------------------------------------
 
-## Execution Pipeline (Strict Order)
-
-### Step 1: Generate Script
-
-``` bash
-python generate_script.py
-```
-
--   Prompts user for a topic.
--   Uses local LLM to generate scene-wise narration.
--   Outputs `script.json`.
-
-------------------------------------------------------------------------
-
-### Step 2: Analyze Durations & Generate Voiceover
-
-``` bash
-python add_voiceover.py
-```
-
-When prompted: - **Update scene durations?** → `y` - **Use updated
-script for rendering?** → `y`
-
-Outputs: - `script_updated.json` - `scene_audio/` - `voiceover.m4a`
-
-------------------------------------------------------------------------
-
-### Step 3: Render Video
-
-``` bash
-manim -pqh render_video.py Explainer
-```
-
--   Uses `script_updated.json`.
--   Produces a silent explainer video with correct pacing.
-
-Output: - `Explainer.mp4`
-
-------------------------------------------------------------------------
-
-### Step 4: Merge Voiceover with Video
-
-``` bash
-python add_voiceover.py
-```
-
-When prompted: - **Update scene durations?** → `n` - **Regenerate
-voiceover?** → `n`
-
-Final Output: - `final_with_voiceover.mp4`
-
-------------------------------------------------------------------------
 
 ## Design Principles
 
--   **Separation of Concerns:**\
+-   **Separation of Concerns:**
     Script generation, visual rendering, and audio processing are
     isolated.
 
--   **Offline-First:**\
+-   **Offline-First:**
     No dependency on cloud APIs after initial model setup.
 
 -   **Deterministic Rendering:**\
     Same inputs produce identical outputs.
 
--   **Extensibility:**\
+-   **Extensibility:**
     Easy to replace TTS engine, LLM, or visual style.
 
 ------------------------------------------------------------------------
@@ -186,17 +219,12 @@ Final Output: - `final_with_voiceover.mp4`
 
 ------------------------------------------------------------------------
 
-## Recommended Enhancements
-
--   Subtitle (.srt) generation
--   Whisper-based forced alignment
--   Background music with ducking
--   Multi-style explainer templates
-
-------------------------------------------------------------------------
 
 ## Final Notes
 
-This project is designed as a **production-grade explainer video
-pipeline**, not a demo.\
-Follow the execution order strictly for consistent results.
+This project is designed as a **production-grade explainer video pipeline**, not a demo, Follow the execution order strictly for consistent results.
+
+------
+
+## Author :
+All rights are reserved @SS-2005

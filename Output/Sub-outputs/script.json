@@ -1,0 +1,41 @@
+{
+  "topic": "what is Artificial Intelligence?",
+  "scenes": [
+    {
+      "title": "Introduction",
+      "narration": "Artificial Intelligence, or AI, is about making computers perform tasks that normally require human intelligence. This includes learning from data, understanding language, and recognizing images to solve real-world problems.",
+      "bullets": [
+        "Definition",
+        "Purpose"
+      ],
+      "length_seconds": 25
+    },
+    {
+      "title": "How It Works",
+      "narration": "AI works by using large amounts of data and algorithms to identify patterns and make decisions. Through techniques like machine learning, systems improve their performance over time without being explicitly programmed for every task.",
+      "bullets": [
+        "Core idea",
+        "Learning process"
+      ],
+      "length_seconds": 35
+    },
+    {
+      "title": "Applications",
+      "narration": "AI is used in everyday applications like Netflix recommendations, fraud detection in banking, and medical image analysis. These systems help automate decisions, improve accuracy, and save time across industries.",
+      "bullets": [
+        "Real-world use",
+        "Benefits"
+      ],
+      "length_seconds": 30
+    },
+    {
+      "title": "Conclusion",
+      "narration": "Artificial Intelligence is already shaping how we live and work today. Understanding AI helps us use it responsibly while unlocking its potential to solve complex problems and improve human life.",
+      "bullets": [
+        "Summary",
+        "Impact"
+      ],
+      "length_seconds": 20
+    }
+  ]
+}

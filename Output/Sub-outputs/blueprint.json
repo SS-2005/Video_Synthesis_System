@@ -1,0 +1,49 @@
+{
+  "style": "2D_explainer",
+  "scenes": [
+    {
+      "scene_id": 1,
+      "title": "Introduction",
+      "narration": "Artificial Intelligence (AI) is basically teaching computers to think and learn like humans \u2013 allowing them to perform tasks that typically require intelligence, like understanding language or recognizing images. It\u2019s about creating systems that can solve problems, make decisions, and adapt to new situations through data and algorithms.",
+      "visual_type": "arrow_flow",
+      "visual_instructions": [
+        "Definition",
+        "Purpose"
+      ],
+      "duration": 25
+    },
+    {
+      "scene_id": 2,
+      "title": "How It Works",
+      "narration": "Okay, let's break down Artificial Intelligence (AI) in simple steps. Think of it as teaching computers to *think* and *learn* like humans, but with code! Here\u2019s a breakdown:\n\n**1. What is AI? (The Big Picture)**\n\nAt its core, AI is about creating machines that can perform tasks that typically require human intelligence. This includes things like:\n\n*   **Learning:**  Improving over time based on experience.\n*   **Problem-solving:** Figuring out how to solve a challenge.\n*   **Understanding language:**  Reading and interpreting text.\n*   **Recognizing patterns:** Identifying trends and similarities in data.\n*   **Making decisions:** Choosing the best course of action.\n\n**2. How Does it Work \u2013 The Basic Steps:**\n\nAI doesn\u2019t just *think* like a person. It uses a combination of techniques:\n\n*   **a) Data \u2013 The Fuel:** AI",
+      "visual_type": "arrow_flow",
+      "visual_instructions": [
+        "Core idea",
+        "Learning process"
+      ],
+      "duration": 35
+    },
+    {
+      "scene_id": 3,
+      "title": "Applications",
+      "narration": "Okay, here are 3 real-world applications of Artificial Intelligence (AI) with varying levels of complexity:\n\n1. **Netflix Recommendations:** This is arguably the most widely recognized example. Netflix uses AI algorithms \u2013 specifically machine learning \u2013 to analyze your viewing history, ratings, and preferences to suggest movies and TV shows you\u2019re likely to enjoy. It\u2019s constantly learning and refining these recommendations based on your individual tastes.\n\n2. **Fraud Detection in Banking & Finance:** Banks and financial institutions use AI to identify suspicious transactions and patterns. Machine learning models are trained on vast datasets of past transactions to flag potentially fraudulent activity \u2013 things like unusual spending amounts, locations, or times \u2013 before they can cause significant damage. This is a crucial application for protecting financial assets.\n\n3. **Medical Diagnosis & Imaging:** AI is increasingly being used to assist doctors in diagnosing diseases from medical images like X-rays, MRIs, and CT scans. AI algorithms can be trained to detect subtle anomalies that",
+      "visual_type": "arrow_flow",
+      "visual_instructions": [
+        "Real-world use",
+        "Benefits"
+      ],
+      "duration": 30
+    },
+    {
+      "scene_id": 4,
+      "title": "Conclusion",
+      "narration": "Okay, here's a conclusion about why understanding Artificial Intelligence is important, aiming for a balance of optimism and a realistic acknowledgement of challenges:\n\n\u201cArtificial Intelligence is no longer a futuristic fantasy; it\u2019s rapidly becoming interwoven into the fabric of our lives. Understanding what it *is* \u2013 its potential, its limitations, and its impact \u2013 is critically important for several reasons. It\u2019s not just about robots taking over the world (though that\u2019s a common concern), but about fundamentally reshaping how we solve problems, innovate, and interact with the world. \n\nAI\u2019s importance lies in its ability to analyze vast amounts of data, identify patterns we might miss, and automate complex tasks \u2013 leading to breakthroughs in medicine, climate science, transportation, and countless other fields. It offers the potential to personalize education, improve healthcare outcomes, and even address some of humanity\u2019s most pressing challenges. \n\nHowever, realizing this potential requires careful consideration. We need to prioritize ethical development,",
+      "visual_type": "arrow_flow",
+      "visual_instructions": [
+        "Summary",
+        "Impact"
+      ],
+      "duration": 20
+    }
+  ]
+}

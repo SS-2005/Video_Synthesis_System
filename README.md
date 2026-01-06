@@ -21,12 +21,14 @@ The pipeline is fully modular and  reproducible
 
 ### Step 1: Manual Analysis and Styling of Video to create 
 
+create a analysis.pdf manually
+
 #### Run extract_style.py
 
 ```
 python extract_style.py
 ```
-
+upload the analysis.pdf file when it asks for an upload,
 This extracts the stying and animation type from the document 
 
 #### Run Generate script

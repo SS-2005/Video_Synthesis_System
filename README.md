@@ -137,18 +137,7 @@ and bullet points with animations.
 
 ------------------------------------------------------------------------
 
-### 3. pyttsx3 (Offline Text-to-Speech)
-
-**Why:**
-- Fully offline. - No dependency on external APIs or internet
-connectivity. - Stable for automation pipelines.
-
-**Used for:**
-- Generating voiceover audio per scene.
-
-------------------------------------------------------------------------
-
-### 4. FFmpeg
+### 3. FFmpeg
 
 **Why:**
 - Industry-standard media processing tool. - Reliable audio-video

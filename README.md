@@ -19,9 +19,12 @@ The pipeline is fully modular and  reproducible
 
 ## Execution Pipeline (Strict Order)
 
+Extract the VSS.zip then follow the following steps
+
 ### Step 1: Manual Analysis and Styling of Video to create 
 
-create a analysis.pdf manually
+create a analysis.pdf manually 
+(Or use the provided one in input folder)
 
 #### Run extract_style.py
 

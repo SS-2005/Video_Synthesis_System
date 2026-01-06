@@ -1,0 +1,4 @@
+manim==0.19.1
+requests
+PyPDF2
+gtts

@@ -157,11 +157,11 @@ video.
 ```
     Video_Synthesis_System/
     │
+    ├── style_profile.json          
     ├── generate_script.py          # Generates narration content using LLM
     ├── build_blueprint.py          # Converts script into visual blueprint
     ├── render_video.py             # Renders explainer video using Manim
     ├── add_voiceover.py            # Generates voiceover and merges with video
-    │
     ├── script.json                 # Auto-generated raw script
     ├── script_updated.json         # Auto-generated script with adjusted timings
     ├── blueprint.json              # Auto-generated visual blueprint

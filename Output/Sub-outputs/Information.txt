@@ -1,7 +1,6 @@
 these contents are auto-generated when the following commands are executed in sequential order:
 
 ollama serve
-python extract_style.py
 python generate_script.py
 python build_blueprint.py
 python add_voiceover.py (y,y)

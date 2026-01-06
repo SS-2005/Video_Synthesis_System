@@ -1,0 +1,1 @@
+the check_env.py is the file that can validate that whether or not the envirment is fully compatible for the code or not.

@@ -11,3 +11,6 @@ python add_voiceover.py (Prompt in y, y  when asked)
 manim -pqh render_video.py Explainer
 python add_voiceover.py (Prompt in n,n when asked)
 ollama stop (optional)
+
+
+Final output is "final_with_voiceover.mp4" 

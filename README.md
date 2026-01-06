@@ -32,14 +32,6 @@ pip install -r requirements.txt
 create a analysis.pdf manually 
 (Or use the provided one in input folder)
 
-#### Run extract_style.py
-
-```
-python extract_style.py
-```
-upload the analysis.pdf file when it asks for an upload,
-This extracts the stying and animation type from the document 
-
 #### Run Generate script
 
 Make sure the Ollama service is on :

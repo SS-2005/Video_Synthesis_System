@@ -19,7 +19,7 @@ The pipeline is fully modular and  reproducible
 
 ## Execution Pipeline (Strict Order)
 
-Extract the VSS.zip then follow the following steps
+Extract the `VSS_CompleteProject.zip` then follow the following steps
 
 ### Step 1: Manual Analysis and Styling of Video to create 
 

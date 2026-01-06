@@ -21,6 +21,12 @@ The pipeline is fully modular and  reproducible
 
 Extract the `VSS_CompleteProject.zip` and make sure all the files are under the same folder then follow the following steps
 
+Download LLM LOocally : https://ollama.com/
+
+1. Create a envirnment (recommended) and run
+```
+pip install -r requirements.txt
+```
 ### Step 1: Manual Analysis and Styling of Video to create 
 
 create a analysis.pdf manually 

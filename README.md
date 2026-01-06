@@ -15,7 +15,14 @@ Given a topic, the system:
 The pipeline is fully modular and  reproducible
 
 ------------------------------------------------------------------------
+## Video Demonstration 
 
+https://drive.google.com/file/d/1vatTW0XWZej0BR0qrTVQM-Q96amWHwUm/view?usp=sharing
+
+
+
+
+---------
 
 ## Execution Pipeline (Strict Order)
 

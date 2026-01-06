@@ -1,0 +1,11 @@
+analysis.pdf is a manually created document containning the Visualization Style information based on the followinf:
+
+2D explainer
+line-based animation
+flowchart + arrow animations
+character-based
+whiteboard/doodle
+UI walkthrough
+kinetic typography
+infographic motion graphics
+storytelling scenes

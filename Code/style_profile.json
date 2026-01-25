@@ -1,0 +1,21 @@
+{
+  "style": "2D_explainer",
+  "narrative_structure": {
+    "introduction_minutes": 1,
+    "significance_minutes": 1,
+    "workflow_minutes": 3,
+    "components_minutes": 1,
+    "applications_minutes": 1,
+    "conclusion_minutes": 1
+  },
+  "supporting_elements": {
+    "lines_and_arrows": true,
+    "flowcharts": "diagrammatic",
+    "whiteboard_style": true,
+    "animated_text": true,
+    "ui_walkthrough": false,
+    "characters": false,
+    "infographics": "minimal"
+  },
+  "notes": "This is a manually created document"
+}

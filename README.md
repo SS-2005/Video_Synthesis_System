@@ -1,6 +1,6 @@
 # Automated Explainer Video Generation System
 
-## Overview
+## Overview (For backend Only)
 
 This project is an end-to-end **automated explainer video generation
 system**.

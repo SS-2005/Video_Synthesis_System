@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Video Synthesis System</title>
+
+<style>
+:root {
+  --bg: #020617;
+  --panel: #0f172a;
+  --border: #1e293b;
+  --accent: #4f46e5;
+  --text: #e5e7eb;
+  --muted: #9ca3af;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont;
+  background: radial-gradient(circle at top, #111827, #020617);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 48px 32px;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 36px;
+}
+
+header h1 { font-size: 28px; }
+header span { color: var(--muted); font-size: 14px; }
+
+.panel {
+  background: linear-gradient(180deg, #0f172a, #020617);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 26px;
+  margin-bottom: 28px;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.45);
+}
+
+input {
+  width: 100%;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: #020617;
+  color: var(--text);
+  font-size: 15px;
+}
+
+button {
+  padding: 14px 20px;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(135deg, var(--accent), #6366f1);
+  color: white;
+  cursor: pointer;
+  font-size: 15px;
+  transition: all 0.2s;
+}
+
+button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+}
+
+button.secondary {
+  background: #020617;
+  border: 1px solid var(--border);
+}
+
+button.secondary:hover {
+  background: #1e293b;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+textarea, pre, .script-editor {
+  width: 100%;
+  background: #020617;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  color: var(--text);
+  font-family: ui-monospace;
+  font-size: 13px;
+}
+
+pre {
+  max-height: 400px;
+  overflow-y: auto;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.script-editor {
+  height: 400px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  font-family: 'Courier New', monospace;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.actions-center {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+video {
+  width: 100%;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: #000;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.status-message {
+  padding: 12px;
+  border-radius: 8px;
+  margin: 10px 0;
+  background: rgba(79, 70, 229, 0.1);
+  border-left: 4px solid var(--accent);
+}
+
+.error-message {
+  background: rgba(239, 68, 68, 0.1);
+  border-left: 4px solid #ef4444;
+}
+
+.success-message {
+  background: rgba(34, 197, 94, 0.1);
+  border-left: 4px solid #22c55e;
+}
+
+.warning-message {
+  background: rgba(245, 158, 11, 0.1);
+  border-left: 4px solid #f59e0b;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 6px;
+  background: var(--border);
+  border-radius: 3px;
+  margin: 15px 0;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), #6366f1);
+  width: 0%;
+  transition: width 0.3s ease;
+  border-radius: 3px;
+}
+
+.log-line {
+  padding: 2px 0;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+}
+
+.log-line.info {
+  color: var(--text);
+}
+
+.log-line.success {
+  color: #10b981;
+}
+
+.log-line.error {
+  color: #ef4444;
+}
+
+.log-line.warning {
+  color: #f59e0b;
+}
+
+.log-line.system {
+  color: #8b5cf6;
+  font-weight: bold;
+}
+
+#videoStatus {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.spinner-small {
+  width: 24px;
+  height: 24px;
+  border: 3px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-right: 10px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+  <h1>Video Synthesis System</h1>
+  <span>Local Pipeline • Live Status</span>
+</header>
+
+<!-- Step 1: Topic Input -->
+<div class="panel" id="topicPanel">
+  <h3>Step 1: Enter Topic</h3>
+  <input id="topicInput" placeholder="Enter topic for explainer video (e.g., What is Artificial Intelligence?)" />
+  <div class="actions">
+    <button onclick="generateScript()" id="generateScriptBtn">Generate Script</button>
+  </div>
+  <div id="topicMessage" class="hidden"></div>
+</div>
+
+<!-- Step 2: Script Editor -->
+<div class="panel hidden" id="scriptPanel">
+  <h3>Step 2: Review & Edit Script</h3>
+  <div class="status-message">
+    <strong>Instructions:</strong> Review the generated script below. You can edit any text, change scene durations, or modify bullet points. When you're satisfied, click "Generate Video".
+  </div>
+  <div class="script-editor" id="scriptEditor" contenteditable="true" spellcheck="false"></div>
+  <div class="actions">
+    <button class="secondary" onclick="regenerateScript()">Regenerate Script</button>
+    <button onclick="updateScript()">Save Changes</button>
+    <button onclick="startVideoPipeline()" id="generateVideoBtn">Generate Video</button>
+  </div>
+  <div id="scriptMessage" class="hidden"></div>
+</div>
+
+<!-- Step 3: Pipeline Status -->
+<div class="panel hidden" id="logPanel">
+  <h3>Step 3: Pipeline Status</h3>
+  <div class="progress-bar">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+  <pre id="logs"></pre>
+  <div id="pipelineControls" class="actions hidden">
+    <button class="secondary" onclick="cancelPipeline()">Cancel Pipeline</button>
+  </div>
+</div>
+
+<!-- Step 4: Final Video -->
+<div class="panel hidden" id="videoPanel">
+  <h3>Step 4: Final Output</h3>
+  <div id="videoStatus" class="status-message">
+    <div class="spinner-small"></div>
+    Video is being processed. Please wait...
+  </div>
+  <video id="finalVideo" controls></video>
+  <div class="actions-center">
+    <button class="secondary" onclick="resetPipeline()">Create Another Video</button>
+  </div>
+</div>
+
+</div>
+
+<script>
+const topicPanel = document.getElementById("topicPanel");
+const scriptPanel = document.getElementById("scriptPanel");
+const logPanel = document.getElementById("logPanel");
+const videoPanel = document.getElementById("videoPanel");
+const logsBox = document.getElementById("logs");
+const scriptEditor = document.getElementById("scriptEditor");
+const topicMessage = document.getElementById("topicMessage");
+const scriptMessage = document.getElementById("scriptMessage");
+const videoStatus = document.getElementById("videoStatus");
+const finalVideo = document.getElementById("finalVideo");
+const progressFill = document.getElementById("progressFill");
+const pipelineControls = document.getElementById("pipelineControls");
+
+let currentScript = null;
+let eventSource = null;
+let pipelineActive = false;
+
+function showMessage(element, message, type = "info") {
+  element.textContent = message;
+  element.className = `status-message ${type}-message`;
+  element.classList.remove("hidden");
+}
+
+function clearMessage(element) {
+  element.classList.add("hidden");
+  element.textContent = "";
+}
+
+function addLogMessage(message, type = "info") {
+  const timestamp = new Date().toLocaleTimeString();
+  const logLine = document.createElement('div');
+  logLine.className = `log-line ${type}`;
+  logLine.textContent = `[${timestamp}] ${message}`;
+  
+  logsBox.appendChild(logLine);
+  logsBox.scrollTop = logsBox.scrollHeight;
+  
+  // Update progress bar based on message content
+  if (message.includes("[STEP 1/4]")) {
+    progressFill.style.width = '25%';
+  } else if (message.includes("[STEP 2/4]")) {
+    progressFill.style.width = '50%';
+  } else if (message.includes("[STEP 3/4]")) {
+    progressFill.style.width = '75%';
+  } else if (message.includes("[STEP 4/4]")) {
+    progressFill.style.width = '90%';
+  } else if (message.includes("[OK]") || message.includes("PIPELINE_COMPLETE")) {
+    progressFill.style.width = '100%';
+  }
+}
+
+async function generateScript() {
+  const topic = document.getElementById("topicInput").value.trim();
+  
+  if (!topic) {
+    showMessage(topicMessage, "Please enter a topic first.", "error");
+    return;
+  }
+  
+  const generateBtn = document.getElementById("generateScriptBtn");
+  generateBtn.disabled = true;
+  generateBtn.textContent = "Generating...";
+  clearMessage(topicMessage);
+  
+  try {
+    const response = await fetch('/generate_script', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ topic: topic })
+    });
+    
+    const data = await response.json();
+    
+    if (data.success) {
+      currentScript = data.script;
+      // Format and display script in editor
+      scriptEditor.textContent = JSON.stringify(data.script, null, 2);
+      scriptPanel.classList.remove("hidden");
+      topicPanel.classList.add("hidden");
+      showMessage(topicMessage, "Script generated successfully!", "success");
+      
+      // Auto-save the script
+      updateScript();
+    } else {
+      showMessage(topicMessage, `Error: ${data.error || 'Unknown error'}`, "error");
+    }
+  } catch (error) {
+    showMessage(topicMessage, `Error: ${error.message}`, "error");
+  } finally {
+    generateBtn.disabled = false;
+    generateBtn.textContent = "Generate Script";
+  }
+}
+
+function regenerateScript() {
+  if (currentScript) {
+    // Just clear and allow regeneration
+    document.getElementById("topicInput").value = currentScript.topic || "";
+    scriptPanel.classList.add("hidden");
+    topicPanel.classList.remove("hidden");
+    clearMessage(topicMessage);
+  }
+}
+
+async function updateScript() {
+  try {
+    const updatedScript = JSON.parse(scriptEditor.textContent);
+    currentScript = updatedScript;
+    
+    const response = await fetch('/update_script', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ script: updatedScript })
+    });
+    
+    const data = await response.json();
+    
+    if (data.success) {
+      showMessage(scriptMessage, "Script updated successfully!", "success");
+      setTimeout(() => clearMessage(scriptMessage), 3000);
+    } else {
+      showMessage(scriptMessage, `Error: ${data.error || 'Unknown error'}`, "error");
+    }
+  } catch (error) {
+    showMessage(scriptMessage, `Invalid JSON format: ${error.message}`, "error");
+  }
+}
+
+function startVideoPipeline() {
+  // Save any unsaved changes first
+  updateScript();
+  
+  const generateBtn = document.getElementById("generateVideoBtn");
+  generateBtn.disabled = true;
+  generateBtn.textContent = "Starting Pipeline...";
+  
+  // Reset UI state
+  logsBox.innerHTML = "";
+  progressFill.style.width = '0%';
+  logPanel.classList.remove("hidden");
+  scriptPanel.classList.add("hidden");
+  videoPanel.classList.add("hidden");
+  pipelineControls.classList.remove("hidden");
+  
+  pipelineActive = true;
+  
+  // Close any previous SSE connection
+  if (eventSource) {
+    eventSource.close();
+  }
+  
+  // Start the video generation pipeline
+  eventSource = new EventSource('/generate_video');
+  
+  eventSource.onopen = () => {
+    addLogMessage("Pipeline started. Connecting to server...", "system");
+    generateBtn.textContent = "Pipeline Running...";
+  };
+  
+  eventSource.onmessage = (event) => {
+  const data = event.data;
+  
+  // Determine message type
+  let type = "info";
+  if (data.includes("[ERROR]")) type = "error";
+  else if (data.includes("[OK]")) type = "success";
+  else if (data.includes("[STEP")) type = "system";
+  else if (data.includes("[WARNING]") || data.includes("[INFO]")) type = "warning";
+  
+  addLogMessage(data, type);
+  
+  if (data === "PIPELINE_COMPLETE") {
+    eventSource.close();
+    pipelineActive = false;
+    generateBtn.disabled = false;
+    generateBtn.textContent = "Generate Video";
+    pipelineControls.classList.add("hidden");
+    
+    // Show video panel and start checking for video
+    setTimeout(() => {
+      logPanel.classList.add("hidden");
+      videoPanel.classList.remove("hidden");
+      checkVideoReady();
+    }, 1000);
+  }
+};
+  
+  eventSource.onerror = (error) => {
+    console.error("EventSource error:", error);
+    addLogMessage("Pipeline connection error or interrupted.", "error");
+    
+    if (eventSource) {
+      eventSource.close();
+    }
+    pipelineActive = false;
+    generateBtn.disabled = false;
+    generateBtn.textContent = "Generate Video";
+    pipelineControls.classList.add("hidden");
+  };
+}
+
+function cancelPipeline() {
+  if (eventSource && pipelineActive) {
+    eventSource.close();
+    addLogMessage("Pipeline cancelled by user.", "warning");
+    pipelineActive = false;
+    
+    const generateBtn = document.getElementById("generateVideoBtn");
+    generateBtn.disabled = false;
+    generateBtn.textContent = "Generate Video";
+    pipelineControls.classList.add("hidden");
+  }
+}
+
+function checkVideoReady() {
+  let attempts = 0;
+  const maxAttempts = 60; // 2 minutes total
+  
+  const checkInterval = setInterval(async () => {
+    attempts++;
+    
+    try {
+      const response = await fetch('/check_video');
+      const data = await response.json();
+      
+      if (data.exists && data.size > 0) {
+        clearInterval(checkInterval);
+        videoStatus.classList.add("hidden");
+        // Add cache busting parameter
+        finalVideo.src = "/video?" + new Date().getTime();
+        finalVideo.load();
+        
+        // Auto-play the video
+        finalVideo.play().catch(e => {
+          console.log("Auto-play prevented:", e);
+        });
+      } else if (attempts >= maxAttempts) {
+        clearInterval(checkInterval);
+        videoStatus.innerHTML = "<div class='error-message'>Video generation timed out. Please try again.</div>";
+      } else {
+        videoStatus.innerHTML = `<div class='status-message'><div class='spinner-small'></div>Processing video... (${attempts * 2}s)</div>`;
+      }
+    } catch (error) {
+      console.error("Error checking video:", error);
+      if (attempts >= maxAttempts) {
+        clearInterval(checkInterval);
+        videoStatus.innerHTML = "<div class='error-message'>Error checking video status.</div>";
+      }
+    }
+  }, 2000); // Check every 2 seconds
+}
+
+function resetPipeline() {
+  // Reset all panels
+  topicPanel.classList.remove("hidden");
+  scriptPanel.classList.add("hidden");
+  logPanel.classList.add("hidden");
+  videoPanel.classList.add("hidden");
+  
+  // Clear inputs
+  document.getElementById("topicInput").value = "";
+  scriptEditor.textContent = "";
+  logsBox.innerHTML = "";
+  progressFill.style.width = '0%';
+  finalVideo.src = "";
+  finalVideo.load();
+  videoStatus.classList.remove("hidden");
+  videoStatus.innerHTML = `<div class='status-message'><div class='spinner-small'></div>Video is being processed. Please wait...</div>`;
+  
+  // Clear messages
+  clearMessage(topicMessage);
+  clearMessage(scriptMessage);
+  
+  // Enable buttons
+  const generateScriptBtn = document.getElementById("generateScriptBtn");
+  const generateVideoBtn = document.getElementById("generateVideoBtn");
+  
+  generateScriptBtn.disabled = false;
+  generateScriptBtn.textContent = "Generate Script";
+  generateVideoBtn.disabled = false;
+  generateVideoBtn.textContent = "Generate Video";
+  
+  // Close any open connections
+  if (eventSource) {
+    eventSource.close();
+    eventSource = null;
+  }
+  
+  pipelineActive = false;
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "style": "2D_explainer",
+  "tone": "clear, professional, explanatory",
+  "audience_default": "intermediate",
+  "supporting_elements": {
+    "lines_and_arrows": true,
+    "icons": true,
+    "highlight_boxes": true
+  },
+  "brand_rules": {
+    "avoid_absolute_claims": true,
+    "avoid_unverified_statistics": true,
+    "keep_language_factual": true
+  },
+  "localization": {
+    "enable_multilingual_output": true,
+    "default_language": "English"
+  }
+}
